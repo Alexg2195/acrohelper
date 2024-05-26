@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Acro Ideas</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        #acro-container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .pose-name {
+            font-size: 7rem;
+            margin-bottom: 2rem;
+        }
+        
+        #arrow {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        #randomize-button {
+            font-size: 1.5rem;
+            padding:
+            1rem;
+        }
+
+        #options {
+            font-size: 1.5rem;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="acro-container">
+        <div id="acro-name" class="pose-name"></div>
+        <div id="arrow">&#8595;</div>
+        <div id="next-pose" class="pose-name"></div>
+        <div id="options">
+            <button id="randomize-button">Randomize</button>
+            <p>Press the space bar to randomize.</p>
+            <div id="options">
+                <label><input type="checkbox" id="poses-checkbox" checked onclick="uncheckOthers(this)"> Poses</label>
+                <label><input type="checkbox" id="transitions-checkbox" onclick="uncheckOthers(this)"> Transitions</label>
+                <label><input type="checkbox" id="machines-checkbox" onclick="uncheckOthers(this)"> Washing Machines</label>
+                <label><input type="checkbox" id="lux-checkbox" onclick="uncheckOthers(this)"> Lux's List</label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array of acro poses
+        var poses = [
+            "Front Plank",
+            "Reverse Front Plank",
+            "Back Plank",
+            "Reverse Back Plank",
+            "Inside Star",
+            "Reverse Inside Star",
+            "Outside Star",
+            "Reverse Outside Star",
+            "Throne",
+            "Reverse Throne",
+            "Foot to Hand - Low",
+            "Foot to Hand - Extended",
+            "Reverse Foot to Hand - Low",
+            "Reverse Foot to Hand - Entended",
+            "Hand to Hand - Low",
+            "Hand to Hand - Extended",
+            "Reverse Hand to Hand - Low",
+            "Reverse Hand to Hand - Extended",
+            "Baby Hand to Hand",
+            "Reverse Baby Hand to Hand",
+            "Tuck Sit",
+            "Reverse Tuck Sit",
+            "Tuck Sit - On Feet",
+            "Reverse Tuck Sit - On Feet",
+            "Star",
+            "Mono Star",
+            "Reverse Star",
+            "Mono Reverse Star",
+            "Whale",
+            "Straddle Bat",
+            "Bicep Stand - On Feet",
+            "Bicep Stand - On Hands",
+            "Reverse Bicep Stand",
+            "Croc",
+            "Shoulder Stand",
+            "Mono Shoulder Stand",
+            "Reverse Shoulder Stand",
+            "Shin to Hand",
+            "Shim to Hands - Gate",
+            "Shin to Foot",
+            "Couch",
+            "Reverse Couch",
+            "Foot to Forearm",
+            "Reverse Foot to Forearm",
+            "Pashi - On Feet",
+            "Pashi - On Hands",
+            "Thinker",
+            "Reverse Thinker",
+        ];
+
+        var machines = [
+            "4-Step",
+            "2-Step",
+            "Barrel Roll",
+            "Catherine's Wheel",
+            "Ninja Star",
+            "Tick Tocks",
+            "Spider Roll",
+            "Torque The Peacock",
+            "Corkscrew",
+            "Trap Door",
+            "Nunchuck",
+            "Rotisserie step / Shawarma",
+            "Monkey Frog",
+            "Ballerina",
+            "Boomarang",
+            "Strone",
+            "Reverse Strone",
+            "High Ninja Star",
+            "Psychedelic step",
+            "Prasarita Twist",
+            "Russian Roll",
+            "London Spin",
+        ];
+
+        var luxList = [
+            "Flag",
+            "Two High",
+            "Thigh Stand",
+            "Shoulderstand Roll Up to Reverse Thighstand",
+            "Reverse Star -> Croc",
+            "Jump entrance -> mono extended F2H",
+            "Mono Shoulderstand",
+            "Back plank -> reverse outside star",
+            "Goofy Mono Star > Rev bBck Plank",
+            "Star -> Front Plank",
+            "Mono Reverse Star",
+            "Bird -> Side Star -> Star",
+            "Inside Star -> Straddle Bat",
+            "Shoulder Stand -> Reverse Thigh Stand",
+            "Shoulder Stand -> Reverse Star",
+            "Back plank -> Bat",
+            "Straddle bat -> Floating Paschi",
+            "Jump into Shoulderstand",
+            "Free Star",
+            "Back Plank -> Star",
+            "Shins -> Reverse Star",
+            "Walkovers",
+            "Front Plank -> Front Plank on hands",
+            "Front Plank -> Chair",
+            "Front Plank -> Shoulderstand",
+            "Back Plank -> Reverse Shoulderstand",
+            "Cathedral Shoulderstand",
+            "Shoulderstand -> Back Plank",
+            "Foot to Hand -> Star",
+            "Star -> Foot to Hand",
+            "Rev Inside Star -> Reverse star",
+        ];
+
+        function randomizePose() {
+            var posesCheckbox = document.getElementById("poses-checkbox");
+            var transitionsCheckbox = document.getElementById("transitions-checkbox");
+            var machinesCheckbox = document.getElementById("machines-checkbox");
+            var luxCheckbox = document.getElementById("lux-checkbox");
+            var arrow = document.getElementById("arrow");
+
+            if (posesCheckbox.checked) {
+                var pose = poses[Math.floor(Math.random() * poses.length)];
+                document.getElementById("acro-name").textContent = pose;
+                document.getElementById("next-pose").textContent = "";
+                arrow.style.display = "none"; // hide the arrow
+            } else if (transitionsCheckbox.checked) {
+                var pose1 = poses[Math.floor(Math.random() * poses.length)];
+                var pose2 = poses[Math.floor(Math.random() * poses.length)];
+                document.getElementById("acro-name").textContent = pose1;
+                document.getElementById("next-pose").textContent = pose2;
+                arrow.style.display = "block"; // show the arrow
+            } else if (machinesCheckbox.checked) {
+                var machine = machines[Math.floor(Math.random() * machines.length)];
+                document.getElementById("acro-name").textContent = machine;
+                document.getElementById("next-pose").textContent = "";
+                arrow.style.display = "none"; // hide the arrow
+            } else if (luxCheckbox.checked) {
+                var lux = luxList[Math.floor(Math.random() * luxList.length)];
+                document.getElementById("acro-name").textContent = lux;
+                document.getElementById("next-pose").textContent = "";
+                arrow.style.display = "none"; // hide the arrow
+            }
+        }
+
+        function uncheckOthers(checkbox) {
+            var checkboxes = document.querySelectorAll('#options input[type="checkbox"]');
+            checkboxes.forEach(function(otherCheckbox) {
+                if (otherCheckbox !== checkbox) {
+                    otherCheckbox.checked = false;
+                }
+            });
+            randomizePose();
+        }
+
+        document.querySelectorAll('input[type=checkbox]').forEach(function(checkbox) {
+            checkbox.addEventListener('keydown', function(event) {
+                if (event.key === ' ') {
+                    event.preventDefault();
+                }
+            });
+        });
+
+        document.getElementById("randomize-button").addEventListener("click", randomizePose);
+
+        // Initial random pose
+        randomizePose();
+
+        // Event listener for space bar keydown
+        window.addEventListener("keydown", function(event) {
+            // Check if the key pressed was the space bar
+            if (event.keyCode === 32) {
+                randomizePose();
+            }
+        });
+    </script>
+</body>
+</html>
